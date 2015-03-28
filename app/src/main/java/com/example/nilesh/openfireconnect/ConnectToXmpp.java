@@ -3,6 +3,7 @@ package com.example.nilesh.openfireconnect;
 import org.jivesoftware.smack.AccountManager;
 import org.jivesoftware.smack.AndroidConnectionConfiguration;
 import org.jivesoftware.smack.Connection;
+import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Presence;
@@ -24,9 +25,8 @@ import de.greenrobot.event.EventBus;
 public class ConnectToXmpp {
 
 	public static final String TAG = "ConnectToXmpp";
-    public static Connection liveConnection = null;
 
-	public void connect(final String username, final String password) {
+	public static void connect(final String username, final String password, final ConnectionListener listener) {
 
 		new AsyncTask<Void, Void, Void>() {
 			@Override
@@ -43,24 +43,20 @@ public class ConnectToXmpp {
 					Presence presence = new Presence(
 							Presence.Type.available);
 					connection.sendPacket(presence);
-                    liveConnection = connection;
-					eventData.setSuccessfulLogin(true);
+                    listener.onConnected(connection);
 
 				} catch (XMPPException ex) {
 
                     Log.e(TAG, "[SettingsDialog] Failed to log in as "
 							+ username);
 					Log.e(TAG, ex.toString());
-                    eventData.setSuccessfulLogin(false);
-                    eventData.setError(ex.toString());
+                    listener.onConnectionError(ex.toString());
 
 				} catch (Exception e) {
 
                     Log.e(TAG, e.toString());
-                    eventData.setSuccessfulLogin(false);
-                    eventData.setError(e.toString());
+                    listener.onConnectionError(e.toString());
 				}
-                EventBus.getDefault().post(eventData);
 				return null;
 			}
 		}.execute();
@@ -96,8 +92,6 @@ public class ConnectToXmpp {
                                 SharedPref.SHARED_PREF,
                                 SharedPref.PASSWORD, password);
 
-                        addToGroup(context, connection);
-
                         event.setUserCreated(true);
 
 					} catch (XMPPException e) {
@@ -118,31 +112,7 @@ public class ConnectToXmpp {
 		}.execute();
 	}
 
-    private void addToGroup(Context context, Connection connection)
-    {
-        try {
-
-            String username = SharedPrefInstance.getString(context,
-                    SharedPref.SHARED_PREF,
-                    SharedPref.USERNAME);
-
-            String password = SharedPrefInstance.getString(context,
-                    SharedPref.SHARED_PREF,
-                    SharedPref.PASSWORD);
-
-            connection.login("admin","pandit");
-            connection.getRoster().createGroup(Constants.ServerDetails.GROUP_NAME);
-            connection.getRoster().createEntry(username+Constants.ServerDetails.JID, username, new String[]{Constants.ServerDetails.GROUP_NAME});
-            connection.disconnect();
-            Log.v("TAG", "Added to group"+Constants.ServerDetails.GROUP_NAME);
-
-        } catch (XMPPException e) {
-            Log.v("TAG", e.toString());
-            e.printStackTrace();
-        }
-    }
-
-	private XMPPConnection connectToChatServer() throws Exception
+	private static XMPPConnection connectToChatServer() throws Exception
 	{
 		AndroidConnectionConfiguration connConfig = new AndroidConnectionConfiguration(
 				Constants.ServerDetails.SERVER_LINK,
@@ -155,7 +125,6 @@ public class ConnectToXmpp {
 		try {
 			connection.connect();
 			//setting the connection
-			liveConnection = connection;
 			Log.i("XMPPClient", "Connected to " + connection.getHost());
 		}
 		catch (Exception ex) {

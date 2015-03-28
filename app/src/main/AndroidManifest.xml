@@ -39,6 +39,7 @@
             android:name=".SendMessage"
             android:label="@string/title_activity_send_message" >
         </activity>
+        <service android:name="com.example.nilesh.openfireconnect.HikeService"/>
     </application>
 
 </manifest>

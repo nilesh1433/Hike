@@ -15,4 +15,13 @@
         android:layout_marginLeft="40dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="52dp" />
+
+    <ImageView
+        android:id="@+id/plus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/ic_launcher"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"/>
 </RelativeLayout>

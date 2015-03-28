@@ -2,7 +2,10 @@ package com.example.nilesh.openfireconnect;
 
 import android.util.Log;
 
+import com.example.nilesh.apicall.ApiListener;
+import com.example.nilesh.apicall.MakeAPICall;
 import com.example.nilesh.model.UserDetails;
+import com.example.nilesh.util.Constants;
 
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;
@@ -11,34 +14,32 @@ import org.jivesoftware.smack.RosterGroup;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import de.greenrobot.event.EventBus;
+
 /**
  * Created by Nilesh on 3/28/2015.
  */
 public class OpenfireUtility {
 
+    MakeAPICall apiCall;
+    ArrayList<UserDetails> users;
+
     public ArrayList<UserDetails> getMembers()
     {
         Log.v("TAG", "getMembers()");
-        ArrayList<UserDetails> members;
-        Roster roster = ConnectToXmpp.liveConnection.getRoster();
+        apiCall = new MakeAPICall();
+        apiCall.makeGETRequest(Constants.APILinks.GET_ALL_USERS, "", new ApiListener() {
+            @Override
+            public void onLoadFinished(Object data) {
+                users = (ArrayList<UserDetails>) data;
+                EventBus.getDefault().post(users);
+            }
 
-        members = new ArrayList<UserDetails>();
+            @Override
+            public void onLoadError() {
 
-        Collection<RosterEntry> rosterEntries = roster.getEntries();
-        Collection<RosterGroup> rosterGroups = roster.getGroups();
-            System.out.println(roster.getGroupCount());
-
-        for (RosterGroup temp : rosterGroups) {
-            System.out.println(temp.getName());//temp.getName()+" "+temp.getUser());
-        }
-
-        for (RosterEntry temp : rosterEntries) {
-            UserDetails user = new UserDetails();
-            user.setUserName(temp.getUser());
-            Log.v("TAG", "*************"+user.getUserName());
-            members.add(user);
-        }
-
-        return members;
+            }
+        });
+        return users;
     }
 }

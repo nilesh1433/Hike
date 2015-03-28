@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.nilesh.openfireconnect.HikeService;
 import com.example.nilesh.util.Constants;
 import com.example.nilesh.util.SharedPrefInstance;
 
@@ -32,9 +33,15 @@ public class SplashScreen extends HikeActivity {
 
                 if(SharedPrefInstance.getBoolean(SplashScreen.this, Constants.SharedPref.SHARED_PREF,
                         Constants.SharedPref.IS_REGISTERED))
+                {
+                    startService(new Intent(SplashScreen.this, HikeService.class));
                     startActivity(new Intent(SplashScreen.this, UserListActivity.class));
+
+                }
                 else
+                {
                     startActivity(new Intent(SplashScreen.this, MainActivity.class));
+                }
 
                 SplashScreen.this.finish();
 

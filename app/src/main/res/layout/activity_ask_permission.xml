@@ -16,9 +16,10 @@
     <TextView
         android:id="@+id/permissionLabel"
         android:layout_width="wrap_content"
+        android:paddingTop="20dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/user"
-        android:text="Lable"/>
+        android:text="Request for one or more Priority Options"/>
 
     <include
         android:id="@+id/layoutPermissionLayout"
@@ -31,7 +32,7 @@
         android:id="@+id/confirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ask Permission"
+        android:text="Request Priority"
         android:layout_below="@+id/layoutPermissionLayout"/>
 
 </RelativeLayout>
