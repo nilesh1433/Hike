@@ -4,6 +4,7 @@ package com.example.nilesh.util;
  * Created by Nilesh on 3/28/2015.
  */
 import com.example.nilesh.model.UserDetails;
+import com.example.nilesh.openfireconnect.HikeService;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -49,12 +50,14 @@ public class XmlParser {
                     case XmlPullParser.END_TAG:
                         if (tagname.equalsIgnoreCase("user")) {
                             // add employee object to list
-                            users.add(user);
+                            if(!user.getUserName().equalsIgnoreCase(HikeService.connection.getUser().split("@")[0]))
+                                users.add(user);
                         }else if (tagname.equalsIgnoreCase("username")) {
                             user.setUserName(text);
                         }  else if (tagname.equalsIgnoreCase("name")) {
                             user.setName(text);
                         }
+
                         break;
 
                     default:

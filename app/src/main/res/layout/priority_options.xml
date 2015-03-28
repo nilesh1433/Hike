@@ -5,25 +5,34 @@
     android:orientation="horizontal">
 
 
-    <Button
+    <RadioGroup
+        android:id="@+id/priorityGroup"
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Ring and Vibrate"
-        android:layout_weight="1"
-        android:layout_margin="1dp"
-        android:id="@+id/p1" />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Vibrate Only"
-        android:layout_margin="1dp"
-        android:layout_weight="1"
-        android:id="@+id/p2" />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hike+ Notification"
-        android:layout_margin="1dp"
-        android:layout_weight="1"
-        android:id="@+id/p3" />
+        android:layout_height="wrap_content">
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ring and Vibrate"
+                    android:layout_weight="1"
+                    android:layout_margin="1dp"
+                    android:visibility="gone"
+                    android:id="@+id/ringAndVibrate" />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Vibrate Only"
+                    android:layout_margin="1dp"
+                    android:layout_weight="1"
+                    android:visibility="gone"
+                    android:id="@+id/vibrate" />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hike+ Notification"
+                    android:layout_margin="1dp"
+                    android:layout_weight="1"
+                    android:visibility="gone"
+                    android:id="@+id/hike" />
+    </RadioGroup>
 </LinearLayout>

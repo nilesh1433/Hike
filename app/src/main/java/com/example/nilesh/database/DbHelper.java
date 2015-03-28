@@ -27,6 +27,8 @@ public class DbHelper extends SQLiteOpenHelper{
     private static final String TABLE_NAME2 = "HIKE_PRIORITY";
     // Table1 Columns names
     private static final String FROM = "from_user";
+    private static final String TO = "to_user";
+    private static final String ID = "id";
 
     // Table2 Columns names
     private static final String MSG = "message";
@@ -47,6 +49,8 @@ public class DbHelper extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db) {
         dbase=db;
         String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME1 + " ( "
+                + ID +" INTEGER AUTO INCREMENT, "
+                + TO +" TEXT, "
                 + FROM + " TEXT  KEY, "
                 + MSG + " TEXT)";
         db.execSQL(sql);
@@ -57,9 +61,10 @@ public class DbHelper extends SQLiteOpenHelper{
     }
 
 
-    public void insertMessages(String from_user_id,String msg){
+    public void insertMessages(String to_user_id, String from_user_id,String msg){
         dbase = getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put(TO, to_user_id);
         values.put(FROM, from_user_id);
         values.put(MSG, msg);
         dbase.insert(TABLE_NAME1, null, values);
@@ -77,7 +82,7 @@ public class DbHelper extends SQLiteOpenHelper{
     public List<String> getAllMessage(String from_user){
         List msgs = new ArrayList<String>();
         dbase = getWritableDatabase();
-        String sql="SELECT * FROM "+TABLE_NAME1 + "  WHERE "+ FROM +"= '"+ from_user +"'";
+        String sql="SELECT * FROM "+TABLE_NAME1 + "  WHERE "+ FROM +"= '"+ from_user +"' union SELECT * FROM "+TABLE_NAME1+" WHERE "+ TO +"= '"+ from_user +"' order by "+ID+" desc";
         dbase=getReadableDatabase();
         Cursor cursor=dbase.rawQuery(sql,null);
         if(cursor.moveToFirst()){

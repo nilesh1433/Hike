@@ -68,7 +68,7 @@ public class UserListActivity extends HikeActivity {
         //basically this code will run only when the user has timeout, need to change
         if((connection==null || !connection.isConnected()) && !HikeService.connectionInProgress)
         {
-            Log.d("TAG", "connecting through userlistactivity "+ connection+" "+connection.isConnected());
+            Log.d("TAG", "connecting through userlistactivity "+ connection);
             connectToXmpp.connect(SharedPrefInstance.getString(
                             UserListActivity.this,
                             Constants.SharedPref.SHARED_PREF,
