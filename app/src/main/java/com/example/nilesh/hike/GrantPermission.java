@@ -75,6 +75,12 @@ public class GrantPermission extends ActionBarActivity {
                 if(alarm.isChecked())
                     text.append(Constants.PRIORITY.VIBRATE_RING + "@");
 
+                if(text.length()==0)
+                {
+                    Crouton.makeText(GrantPermission.this, "Select atleast one.", Style.ALERT).show();
+                    return;
+                }
+
                 msg.setBody("Approval@"+text.toString().substring(0, text.length()-1));
                 msg.setType(Message.Type.chat);
                 msg.setTo(to);
