@@ -4,6 +4,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
+    android:background="@color/background"
     tools:context="com.example.nilesh.hike.AskPermission">
 
     <TextView
@@ -11,14 +12,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
+        android:visibility="invisible"
         android:text="User"/>
 
     <TextView
         android:id="@+id/permissionLabel"
         android:layout_width="wrap_content"
-        android:paddingTop="20dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/user"
+        android:layout_marginBottom="20dp"
         android:text="Request for one or more Priority Options"/>
 
     <include
@@ -26,7 +28,8 @@
         layout="@layout/permission_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/permissionLabel"/>
+        android:layout_below="@+id/permissionLabel"
+        android:layout_marginBottom="20dp"/>
 
     <Button
         android:id="@+id/confirm"

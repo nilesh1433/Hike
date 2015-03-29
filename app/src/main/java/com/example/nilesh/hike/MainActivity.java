@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import com.example.nilesh.eventmodel.EventData;
 import com.example.nilesh.openfireconnect.ConnectToXmpp;
 import com.example.nilesh.openfireconnect.ConnectionListener;
+import com.example.nilesh.openfireconnect.HikeService;
 
 import org.jivesoftware.smack.XMPPConnection;
 
@@ -88,6 +89,7 @@ public class MainActivity extends HikeActivity {
 
                 @Override
                 public void onFinish() {
+                    startService(new Intent(MainActivity.this, HikeService.class));
                     startActivity(new Intent(context, UserListActivity.class));
                     finish();
                 }

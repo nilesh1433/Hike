@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
+    android:id="@+id/messageContainer"
     android:orientation="vertical">
 
     <TextView
@@ -12,8 +13,9 @@
 
         />
     <TextView
+        android:layout_below="@+id/user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/message"/>
 
-</LinearLayout>
+</RelativeLayout>

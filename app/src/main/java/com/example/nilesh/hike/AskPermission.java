@@ -27,7 +27,7 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 public class AskPermission extends ActionBarActivity {
 
     TextView user;
-    CheckBox vibrate, alarm;
+    CheckBox vibrate, alarm, hikePlus;
     Button askPermission;
     String toUsername;
     Connection connection;
@@ -41,6 +41,8 @@ public class AskPermission extends ActionBarActivity {
         connection = HikeService.connection;
         text = new StringBuilder();
         setUpViews();
+
+        getSupportActionBar().setTitle("Ask Permission - "+toUsername);
     }
 
     private void setUpViews()
@@ -48,12 +50,14 @@ public class AskPermission extends ActionBarActivity {
         user = (TextView) findViewById(R.id.user);
         vibrate = (CheckBox) findViewById(R.id.vibrate);
         alarm = (CheckBox) findViewById(R.id.alarm);
+        hikePlus = (CheckBox) findViewById(R.id.hikePlus);
+
         askPermission = (Button) findViewById(R.id.confirm);
         askPermission.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //send message
-                String to = toUsername+"@nilesh";
+                String to = toUsername+"@"+ Constants.ServerDetails.SERVICE;
                 Log.i("XMPPClient", "Sending text [" + text + "] to [" + to + "]");
                 Message msg = new Message();
 
@@ -61,6 +65,8 @@ public class AskPermission extends ActionBarActivity {
                     text.append(Constants.PRIORITY.VIBRATE+"@");
                 if(alarm.isChecked())
                     text.append(Constants.PRIORITY.VIBRATE_RING+"@");
+                if(hikePlus.isChecked())
+                    text.append(Constants.PRIORITY.HIKE_PLUS+"@");
 
                 if(text.length()==0)
                 {

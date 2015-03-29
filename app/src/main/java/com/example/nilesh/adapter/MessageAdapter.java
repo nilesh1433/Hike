@@ -2,6 +2,7 @@ package com.example.nilesh.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ public class MessageAdapter extends BaseAdapter {
     private static class ViewHolder{
         TextView userName;
         TextView messgae;
+        RelativeLayout messageContainer;
     }
     List<MessageDetails> data;
     private Context context;
@@ -60,6 +62,7 @@ public class MessageAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
             viewHolder.messgae = (TextView) convertView.findViewById(R.id.message);
             viewHolder.userName = (TextView) convertView.findViewById(R.id.user);
+            viewHolder.messageContainer = (RelativeLayout) convertView.findViewById(R.id.messageContainer);
             convertView.setTag(viewHolder);
         }
         else
@@ -68,6 +71,30 @@ public class MessageAdapter extends BaseAdapter {
         }
 
 
+        if(data.get(position).isLoggedInUserSender())
+        {
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)viewHolder.userName.getLayoutParams();
+            params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            params.setMargins(0, 0, 10, 0);
+            viewHolder.userName.setLayoutParams(params);
+            params = (RelativeLayout.LayoutParams)viewHolder.messgae.getLayoutParams();
+            params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            params.setMargins(0, 0, 10, 0);
+            viewHolder.messgae.setLayoutParams(params);
+            viewHolder.messageContainer.setBackgroundColor(0x837429);
+        }
+        else
+        {
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)viewHolder.userName.getLayoutParams();
+            params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+            params.setMargins(10, 0, 0, 0);
+            viewHolder.userName.setLayoutParams(params);
+            params = (RelativeLayout.LayoutParams)viewHolder.messgae.getLayoutParams();
+            params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+            params.setMargins(10, 0, 0, 0);
+            viewHolder.messgae.setLayoutParams(params);
+            viewHolder.messageContainer.setBackgroundColor(0x235672);
+        }
         viewHolder.userName.setText(data.get(position).getUser());
         viewHolder.messgae.setText(data.get(position).getMessage());
         return convertView;

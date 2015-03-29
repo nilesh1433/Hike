@@ -6,6 +6,7 @@ package com.example.nilesh.model;
 public class MessageDetails {
     String user;
     String message;
+    boolean isLoggedInUserSender;
 
     public String getUser() {
         return user;
@@ -21,5 +22,13 @@ public class MessageDetails {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public boolean isLoggedInUserSender() {
+        return isLoggedInUserSender;
+    }
+
+    public void setLoggedInUserSender(boolean isLoggedInUserSender) {
+        this.isLoggedInUserSender = isLoggedInUserSender;
     }
 }

@@ -9,9 +9,9 @@
     <string name="register">Register</string>
     <string name="title_activity_splash_screen">SplashScreen</string>
     <string name="title_activity_main">MainActivity</string>
-    <string name="title_activity_user_list">UserListActivity</string>
-    <string name="title_activity_ask_permission">AskPermission</string>
-    <string name="title_activity_grant_permission">GrantPermission</string>
+    <string name="title_activity_user_list">Hike+ users</string>
+    <string name="title_activity_ask_permission">Ask Permission</string>
+    <string name="title_activity_grant_permission">Grant Permission</string>
     <string name="title_activity_send_message">SendMessage</string>
 
 </resources>

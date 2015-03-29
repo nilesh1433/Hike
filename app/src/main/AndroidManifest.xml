@@ -12,12 +12,15 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait">
 
         </activity>
         <activity
             android:name=".SplashScreen"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,19 +29,24 @@
         </activity>
         <activity
             android:name=".UserListActivity"
-            android:label="@string/title_activity_user_list" >
+            android:label="@string/title_activity_user_list"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".AskPermission"
-            android:label="@string/title_activity_ask_permission" >
+            android:label="@string/title_activity_ask_permission"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".GrantPermission"
-            android:label="@string/title_activity_grant_permission" >
+            android:label="@string/title_activity_grant_permission"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".SendMessage"
-            android:label="@string/title_activity_send_message" >
+            android:label="@string/title_activity_send_message"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait">
         </activity>
         <service android:name="com.example.nilesh.openfireconnect.HikeService"/>
     </application>

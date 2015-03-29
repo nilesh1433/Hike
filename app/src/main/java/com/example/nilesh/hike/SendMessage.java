@@ -1,5 +1,6 @@
 package com.example.nilesh.hike;
 
+import android.content.Context;
 import android.os.CountDownTimer;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -56,6 +58,8 @@ public class SendMessage extends ActionBarActivity {
         messageAdapter = new MessageAdapter(this, messageDetailsList);
         setUpViews();
         updatePriorityView();
+
+        getSupportActionBar().setTitle(username+" - Chat");
     }
 
     @Override
@@ -118,8 +122,15 @@ public class SendMessage extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 //send message
-                String to = username+"@nilesh";
+                String to = username+"@"+ Constants.ServerDetails.SERVICE;
                 String message = chatText.getText().toString();
+                hideKeyboard();
+
+                if(message.trim().length()==0)
+                {
+                    Crouton.makeText(SendMessage.this, "Enter valid message", Style.ALERT).show();
+                    return;
+                }
 
                 int selectedPriorityId = priorityGroup.getCheckedRadioButtonId();
                 switch(selectedPriorityId)
@@ -152,10 +163,14 @@ public class SendMessage extends ActionBarActivity {
                     MessageDetails messageDetails = new MessageDetails();
                     messageDetails.setMessage(msg.getBody().split("@")[0]);
                     messageDetails.setUser(connection.getUser().split("@")[0]);
+                    messageDetails.setLoggedInUserSender(true);
                     messageDetailsList.add(messageDetails);
                     messageAdapter.notifyDataSetChanged();
 
                     Crouton.makeText(SendMessage.this, "Message Sent.", Style.CONFIRM).show();
+
+                    priorityGroup.clearCheck();
+
                     new CountDownTimer(1000, 1000){
 
                         @Override
@@ -181,5 +196,13 @@ public class SendMessage extends ActionBarActivity {
         messageDetailsList.add(messageDetails);
         dbHelper.insertMessages(connection.getUser().split("@")[0], messageDetails.getUser(), messageDetails.getMessage());
         messageAdapter.notifyDataSetChanged();
+    }
+
+    private void hideKeyboard()
+    {
+        EditText myEditText = (EditText) findViewById(R.id.chatText);
+        InputMethodManager imm = (InputMethodManager)getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(myEditText.getWindowToken(), 0);
     }
 }

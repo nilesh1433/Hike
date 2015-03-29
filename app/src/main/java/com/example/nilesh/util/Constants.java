@@ -10,7 +10,7 @@ public class Constants {
 	}
 
 	public static class ServerDetails{
-		public static final String SERVER_LINK = "192.168.0.108";
+		public static final String SERVER_LINK = "192.168.0.130";
 		public static final int PORT = 5222;
 		public static final String SERVICE = "nilesh";
         public static final String GROUP_NAME = "nil";
@@ -26,4 +26,6 @@ public class Constants {
         public static final int VIBRATE_RING = 2;
         public static final int HIKE_PLUS = 3;
     };
+
+    public static final long pattern[] = {0, 2000, 2000, 2000, 2000};
 }

@@ -5,6 +5,8 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -128,27 +130,30 @@ public class HikeService extends Service {
         Intent intent = null;
         if(split[0].equalsIgnoreCase("permission"))
         {
+            //normal app icon
+            builder.setSmallIcon(R.drawable.ic_launcher);
+
             //create a permission request
             String requestedPermission="";
             intent = new Intent(getApplicationContext(), GrantPermission.class);
             intent.putExtra("username", name);
-            message = name.split("@")[0] + "has requested for ";
+            message = name.split("@")[0] + " has requested for ";
             for(int i=1; i<split.length; i++)
             {
                 Log.v("TAG", split[i]);
                 if(split[i].equals(""+Constants.PRIORITY.VIBRATE))
                 {
-                    message += "Vibrate";
+                    message += "Vibrate ";
                     requestedPermission += Constants.PRIORITY.VIBRATE+"@";
                 }
                 else if(split[i].equals(""+Constants.PRIORITY.VIBRATE_RING))
                 {
-                    message += "Vibrate And Ring";
+                    message += "Vibrate And Ring ";
                     requestedPermission += Constants.PRIORITY.VIBRATE_RING+"@";
                 }
                 else if(split[i].equals(""+Constants.PRIORITY.HIKE_PLUS))
                 {
-                    message += "Hike Plus";
+                    message += "Hike Plus ";
                     requestedPermission += Constants.PRIORITY.HIKE_PLUS+"@";
                 }
 
@@ -162,6 +167,8 @@ public class HikeService extends Service {
         }
         else if(split[0].equalsIgnoreCase("approval"))
         {
+            //normal app icon
+            builder.setSmallIcon(R.drawable.ic_launcher);
             //save it in database
             Log.v("TAG", "permission saved "+ message.substring(message.indexOf("@")+1, message.length()));
             dbHelper.insertPriority(name.split("@")[0], message.substring(message.indexOf("@")+1, message.length()));
@@ -179,23 +186,31 @@ public class HikeService extends Service {
 
             if(message.contains("@"))
             {
+                //negation for priority message
+                builder.setSmallIcon(R.drawable.priority);
                 intent.putExtra("message", message.split("@")[0]);
                 switch (Integer.parseInt(message.split("@")[1]))
                 {
                     case Constants.PRIORITY.VIBRATE:
-                        builder.setVibrate(new long[]{0, 100, 1000});
+                        builder.setVibrate(Constants.pattern);
+                        builder.setColor(Color.RED);
                         break;
                     case Constants.PRIORITY.VIBRATE_RING:
-                        builder.setVibrate(new long[]{0, 100, 1000});
-                        //builder.setSound(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.notifysnd));
+                        builder.setVibrate(Constants.pattern);
+                        builder.setSound(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.ringtone));
+                        builder.setColor(Color.YELLOW);
                         break;
                     case Constants.PRIORITY.HIKE_PLUS:
+                        builder.setColor(Color.BLUE);
                         break;
                 }
-                sendConfirmationToSendMessage(name.split("@")[0], message.split("@")[0]);
+                message = message.split("@")[0];
+                sendConfirmationToSendMessage(name.split("@")[0], message);
             }
             else
             {
+                //normal app icon
+                builder.setSmallIcon(R.drawable.ic_launcher);
                 intent.putExtra("message", message);
                 sendConfirmationToSendMessage(name.split("@")[0], message);
             }
@@ -206,8 +221,7 @@ public class HikeService extends Service {
 		PendingIntent pendingIntent = PendingIntent.getActivity(
 				getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 		builder.setAutoCancel(true);
-		builder.setSmallIcon(R.drawable.ic_launcher);
-		builder.setContentTitle(name);
+		builder.setContentTitle(name.split("@")[0]);
 		builder.setContentText(message);
 		builder.setContentIntent(pendingIntent);
         builder.setAutoCancel(true);

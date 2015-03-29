@@ -77,7 +77,7 @@ public class ConnectToXmpp {
 					XMPPConnection connection = connectToChatServer();
 					AccountManager am = new AccountManager(connection);
 					try {
-						am.createAccount(username, username);
+						am.createAccount(username, password);
 
 						SharedPrefInstance.setBoolean(
                                 context,

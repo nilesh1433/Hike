@@ -25,7 +25,7 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 public class GrantPermission extends ActionBarActivity {
 
     TextView user;
-    CheckBox vibrate, alarm;
+    CheckBox vibrate, alarm, hikePlus;
     Button grantPermission;
     String toUsername;
     Connection connection;
@@ -41,6 +41,7 @@ public class GrantPermission extends ActionBarActivity {
         connection = HikeService.connection;
         requestedPermission = getIntent().getStringExtra("requestedPermission");
         setUpViews();
+        getSupportActionBar().setTitle("Grant Permission - "+ toUsername.split("@")[0]);
     }
 
     private void setUpViews()
@@ -48,6 +49,7 @@ public class GrantPermission extends ActionBarActivity {
         user = (TextView) findViewById(R.id.user);
         vibrate = (CheckBox) findViewById(R.id.vibrate);
         alarm = (CheckBox) findViewById(R.id.alarm);
+        hikePlus = (CheckBox) findViewById(R.id.hikePlus);
         grantPermission = (Button) findViewById(R.id.confirm);
 
         Log.v("TAG", requestedPermission);
@@ -60,6 +62,11 @@ public class GrantPermission extends ActionBarActivity {
         {
             Log.v("TAG", "vibrate and ring is required");
             alarm.setChecked(true);
+        }
+        if(requestedPermission.contains(""+Constants.PRIORITY.HIKE_PLUS))
+        {
+            Log.v("TAG", "hike plus is required");
+            hikePlus.setChecked(true);
         }
 
         grantPermission.setOnClickListener(new View.OnClickListener() {
@@ -74,6 +81,8 @@ public class GrantPermission extends ActionBarActivity {
                     text.append(Constants.PRIORITY.VIBRATE + "@");
                 if(alarm.isChecked())
                     text.append(Constants.PRIORITY.VIBRATE_RING + "@");
+                if(hikePlus.isChecked())
+                    text.append(Constants.PRIORITY.HIKE_PLUS+"@");
 
                 if(text.length()==0)
                 {

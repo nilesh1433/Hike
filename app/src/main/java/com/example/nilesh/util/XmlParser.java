@@ -50,7 +50,7 @@ public class XmlParser {
                     case XmlPullParser.END_TAG:
                         if (tagname.equalsIgnoreCase("user")) {
                             // add employee object to list
-                            if(!user.getUserName().equalsIgnoreCase(HikeService.connection.getUser().split("@")[0]))
+                            if(!user.getUserName().equalsIgnoreCase(HikeService.connection.getUser().split("@")[0]) && !user.getUserName().equalsIgnoreCase("admin"))
                                 users.add(user);
                         }else if (tagname.equalsIgnoreCase("username")) {
                             user.setUserName(text);
